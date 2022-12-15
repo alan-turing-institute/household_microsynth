@@ -140,7 +140,12 @@ class Household:
         if self.scotland:
             m4408 = np.sum(m4408, axis=0)
             m4408dim = np.array([4])
-        p0 = humanleague.qisi(constraints, [np.array([0, 1, 2]), np.array([0, 3, 2]), m4408dim], [m4404, m4405, m4408])
+        
+        #patch by @crangelsmith - https://github.com/alan-turing-institute/spc-hpc-pipeline/issues/19
+        try:
+            p0 = humanleague.qisi(constraints, [np.array([0, 1, 2]), np.array([0, 3, 2]), m4408dim], [m4404, m4405, m4408])
+        except RuntimeError:
+            p0 = None
 
         # drop the survey seed if there are convergence problems
         # TODO check_humanleague_result needs complete refactoring
